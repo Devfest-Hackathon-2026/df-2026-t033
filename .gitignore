@@ -32,3 +32,8 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 *.log
+
+# 配布資料とローカル保管物（共有は運営の正規配布元を参照）
+/docs/local/
+*.pdf
+secrets/
