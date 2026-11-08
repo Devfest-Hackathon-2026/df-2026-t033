@@ -1,0 +1,271 @@
+{
+  "version": "masked-local-orientation-v1",
+  "development_rows": 27,
+  "original_test_excluded": 5,
+  "fold_plan_sha256": "91afdbf7ecb7f5cdc305d529e24d57af3bc5a90bea948decf39cd9ef262662b4",
+  "baseline": {
+    "count": 27,
+    "accuracy": 0.37037037037037035,
+    "macro_f1": 0.33888888888888885,
+    "recall": {
+      "arch": 0.25,
+      "loop": 0.3333333333333333,
+      "whorl": 0.45454545454545453
+    },
+    "confusion_matrix_rows_true_columns_predicted": [
+      [
+        1,
+        2,
+        1
+      ],
+      [
+        1,
+        4,
+        7
+      ],
+      [
+        4,
+        2,
+        5
+      ]
+    ]
+  },
+  "linear": {
+    "count": 27,
+    "accuracy": 0.37037037037037035,
+    "macro_f1": 0.36944444444444446,
+    "recall": {
+      "arch": 0.75,
+      "loop": 0.3333333333333333,
+      "whorl": 0.2727272727272727
+    },
+    "confusion_matrix_rows_true_columns_predicted": [
+      [
+        3,
+        1,
+        0
+      ],
+      [
+        4,
+        4,
+        4
+      ],
+      [
+        5,
+        3,
+        3
+      ]
+    ]
+  },
+  "template": {
+    "count": 27,
+    "accuracy": 0.5185185185185185,
+    "macro_f1": 0.379041248606466,
+    "recall": {
+      "arch": 0.0,
+      "loop": 0.6666666666666666,
+      "whorl": 0.5454545454545454
+    },
+    "confusion_matrix_rows_true_columns_predicted": [
+      [
+        0,
+        2,
+        2
+      ],
+      [
+        0,
+        8,
+        4
+      ],
+      [
+        1,
+        4,
+        6
+      ]
+    ]
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "linear": {
+        "count": 10,
+        "accuracy": 0.5,
+        "macro_f1": 0.35555555555555557,
+        "recall": {
+          "arch": 0.5,
+          "loop": 0.8,
+          "whorl": 0.0
+        },
+        "confusion_matrix_rows_true_columns_predicted": [
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            4,
+            0
+          ],
+          [
+            1,
+            2,
+            0
+          ]
+        ]
+      },
+      "template": {
+        "count": 10,
+        "accuracy": 0.4,
+        "macro_f1": 0.3,
+        "recall": {
+          "arch": 0.0,
+          "loop": 0.4,
+          "whorl": 0.6666666666666666
+        },
+        "confusion_matrix_rows_true_columns_predicted": [
+          [
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            2,
+            3
+          ],
+          [
+            0,
+            1,
+            2
+          ]
+        ]
+      },
+      "best_epoch": 1,
+      "readable_outer": 10,
+      "outer_count": 10
+    },
+    {
+      "fold": 2,
+      "linear": {
+        "count": 8,
+        "accuracy": 0.25,
+        "macro_f1": 0.20634920634920637,
+        "recall": {
+          "arch": 1.0,
+          "loop": 0.0,
+          "whorl": 0.2
+        },
+        "confusion_matrix_rows_true_columns_predicted": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            3,
+            1,
+            1
+          ]
+        ]
+      },
+      "template": {
+        "count": 8,
+        "accuracy": 0.375,
+        "macro_f1": 0.2777777777777778,
+        "recall": {
+          "arch": 0.0,
+          "loop": 1.0,
+          "whorl": 0.2
+        },
+        "confusion_matrix_rows_true_columns_predicted": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            1,
+            3,
+            1
+          ]
+        ]
+      },
+      "best_epoch": 1,
+      "readable_outer": 8,
+      "outer_count": 8
+    },
+    {
+      "fold": 3,
+      "linear": {
+        "count": 9,
+        "accuracy": 0.3333333333333333,
+        "macro_f1": 0.3,
+        "recall": {
+          "arch": 1.0,
+          "loop": 0.0,
+          "whorl": 0.6666666666666666
+        },
+        "confusion_matrix_rows_true_columns_predicted": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            2,
+            0,
+            3
+          ],
+          [
+            1,
+            0,
+            2
+          ]
+        ]
+      },
+      "template": {
+        "count": 9,
+        "accuracy": 0.7777777777777778,
+        "macro_f1": 0.5523809523809524,
+        "recall": {
+          "arch": 0.0,
+          "loop": 0.8,
+          "whorl": 1.0
+        },
+        "confusion_matrix_rows_true_columns_predicted": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            4,
+            1
+          ],
+          [
+            0,
+            0,
+            3
+          ]
+        ]
+      },
+      "best_epoch": 1,
+      "readable_outer": 9,
+      "outer_count": 9
+    }
+  ],
+  "selection": "Two methods on reused fixed development CV, not independent test",
+  "label_warning": "Provisional AI scan labels; phone accuracy unmeasured; different participants, not repeat captures"
+}
