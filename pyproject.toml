@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fingerprint-symphony-classifier"
+version = "0.1.0"
+description = "Experimental fingerprint pattern candidate API"
+requires-python = ">=3.12"
+dependencies = ["numpy==2.3.5", "Pillow==13.0.0"]
+
+[tool.setuptools]
+packages = ["fingerprint_model"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+fingerprint_model = ["assets/pattern-v1/templates.npz", "assets/pattern-v1/SHA256.txt", "assets/pattern-v1/MODEL_CARD.md", "assets/synthetic-demo.png", "SOURCES.md"]

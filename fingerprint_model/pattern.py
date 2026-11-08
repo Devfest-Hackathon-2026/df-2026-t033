@@ -98,9 +98,20 @@ def descriptor(gray, mask):
 
 
 def extract(path, domain, roi=None):
-    path=Path(path)
-    if path.stat().st_size > 20*1024*1024:raise ValueError("image_size_limit")
-    with Image.open(path) as opened:
+    from io import BytesIO
+    if domain not in ('phone','scan'):raise ValueError('invalid_domain')
+    if isinstance(path,bytes):
+        if len(path)>20*1024*1024:raise ValueError('image_size_limit')
+        source=BytesIO(path)
+    else:
+        path=Path(path)
+        if path.stat().st_size > 20*1024*1024:raise ValueError("image_size_limit")
+        source=path
+    with Image.open(source) as opened:
+        if opened.format not in ('PNG','JPEG'):raise ValueError('unsupported_image_format')
+        if getattr(opened,'n_frames',1)!=1:raise ValueError('multiple_frames_unsupported')
+        if max(opened.size)>8192 or min(opened.size)<64 or opened.width*opened.height>32000000:
+            raise ValueError('unsupported_image_dimensions')
         im=ImageOps.exif_transpose(opened).convert("RGB")
         if max(im.size)>8192 or min(im.size)<64:raise ValueError("unsupported_image_dimensions")
         if roi is not None:

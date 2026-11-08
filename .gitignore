@@ -43,3 +43,6 @@ secrets/
 /fingerprint_model/data/
 /fingerprint_model/weights/
 /fingerprint_model/runs/
+
+# Python packaging outputs
+*.egg-info/
