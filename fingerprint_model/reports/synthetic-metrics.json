@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "labels": [
+      "arch",
+      "loop",
+      "whorl"
+    ],
+    "version": "orientation-softmax-v1",
+    "training_domain": "synthetic-only",
+    "seed": 42,
+    "real_phone_validated": false,
+    "manifest_sha256": "5e7e015eaa50ed2ac8986b38c0fb1d7529037f3774a0f96adf653154f30c7812"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pillow": "13.0.0"
+  },
+  "optimization": {
+    "best_epoch": 1,
+    "validation_loss": 1.5529543816228397e-05,
+    "history": [
+      {
+        "epoch": 1,
+        "validation_cross_entropy": 1.5529543816228397e-05
+      },
+      {
+        "epoch": 25,
+        "validation_cross_entropy": 1.5694011381128803e-05
+      },
+      {
+        "epoch": 50,
+        "validation_cross_entropy": 1.5872277799644507e-05
+      },
+      {
+        "epoch": 75,
+        "validation_cross_entropy": 1.6068202967289835e-05
+      },
+      {
+        "epoch": 100,
+        "validation_cross_entropy": 1.6269650586764328e-05
+      },
+      {
+        "epoch": 125,
+        "validation_cross_entropy": 1.647220051381737e-05
+      },
+      {
+        "epoch": 150,
+        "validation_cross_entropy": 1.66841327882139e-05
+      },
+      {
+        "epoch": 175,
+        "validation_cross_entropy": 1.691152101557236e-05
+      },
+      {
+        "epoch": 200,
+        "validation_cross_entropy": 1.7133939763880335e-05
+      },
+      {
+        "epoch": 225,
+        "validation_cross_entropy": 1.7374022718286142e-05
+      },
+      {
+        "epoch": 250,
+        "validation_cross_entropy": 1.7610240320209414e-05
+      },
+      {
+        "epoch": 275,
+        "validation_cross_entropy": 1.786522443580907e-05
+      },
+      {
+        "epoch": 300,
+        "validation_cross_entropy": 1.812572736525908e-05
+      }
+    ]
+  },
+  "split_image_counts": {
+    "train": 1008,
+    "validation": 216,
+    "test": 216
+  },
+  "split_group_counts": {
+    "train": 252,
+    "validation": 54,
+    "test": 54
+  },
+  "group_overlap": false,
+  "test": {
+    "count": 216,
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "recall": {
+      "arch": 1.0,
+      "loop": 1.0,
+      "whorl": 1.0
+    },
+    "confusion_matrix_rows_true_columns_predicted": [
+      [
+        72,
+        0,
+        0
+      ],
+      [
+        0,
+        72,
+        0
+      ],
+      [
+        0,
+        0,
+        72
+      ]
+    ]
+  },
+  "rejection": {
+    "threshold": 0.9999353885650635,
+    "accepted": 204,
+    "unknown": 12,
+    "coverage": 0.9444444444444444,
+    "accuracy_among_accepted": 1.0,
+    "calibration_domain": "validation split only; not real-phone calibrated"
+  },
+  "limitations": [
+    "Procedural motif generalization only when synthetic-only.",
+    "No real fingerprint/phone training or validation in the supplied baseline.",
+    "Unknown rejection does not reliably detect out-of-distribution images.",
+    "Patterns are controlled mathematical motifs, not anatomically validated fingerprints."
+  ]
+}

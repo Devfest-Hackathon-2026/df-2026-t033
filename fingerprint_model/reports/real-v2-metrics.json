@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "labels": [
+      "arch",
+      "loop",
+      "whorl"
+    ],
+    "version": "orientation-softmax-v1",
+    "training_domain": "external-unvalidated",
+    "preprocessing": "autocontrast-1pct",
+    "training_augmentation": "mild-geometry-v1",
+    "annotation_status": "single-review-provisional",
+    "seed": 42,
+    "real_phone_validated": false,
+    "manifest_sha256": "70e1e918c1dd75ae41f9fd5fb3ec37a262a091ef4d72929c04eef55b65fd2689"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pillow": "13.0.0"
+  },
+  "optimization": {
+    "best_epoch": 2,
+    "validation_loss": 1.0314347743988037,
+    "history": [
+      {
+        "epoch": 1,
+        "validation_cross_entropy": 1.106838345527649
+      },
+      {
+        "epoch": 25,
+        "validation_cross_entropy": 1.1703909635543823
+      },
+      {
+        "epoch": 50,
+        "validation_cross_entropy": 1.3358074426651
+      },
+      {
+        "epoch": 75,
+        "validation_cross_entropy": 1.4517252445220947
+      },
+      {
+        "epoch": 100,
+        "validation_cross_entropy": 1.5388706922531128
+      },
+      {
+        "epoch": 125,
+        "validation_cross_entropy": 1.6082457304000854
+      },
+      {
+        "epoch": 150,
+        "validation_cross_entropy": 1.6656612157821655
+      },
+      {
+        "epoch": 175,
+        "validation_cross_entropy": 1.7144957780838013
+      },
+      {
+        "epoch": 200,
+        "validation_cross_entropy": 1.756877064704895
+      },
+      {
+        "epoch": 225,
+        "validation_cross_entropy": 1.79422926902771
+      },
+      {
+        "epoch": 250,
+        "validation_cross_entropy": 1.8275500535964966
+      },
+      {
+        "epoch": 275,
+        "validation_cross_entropy": 1.8575670719146729
+      },
+      {
+        "epoch": 300,
+        "validation_cross_entropy": 1.8848270177841187
+      }
+    ],
+    "class_weights": [
+      2.5555555555555554,
+      0.696969696969697,
+      0.8518518518518519
+    ],
+    "class_balanced": true
+  },
+  "split_image_counts": {
+    "train": 23,
+    "validation": 4,
+    "test": 5
+  },
+  "training_vectors_including_augmentation": 115,
+  "split_group_counts": {
+    "train": 21,
+    "validation": 4,
+    "test": 5
+  },
+  "group_overlap": false,
+  "test": {
+    "count": 5,
+    "accuracy": 0.8,
+    "macro_f1": 0.5555555555555555,
+    "recall": {
+      "arch": 1.0,
+      "loop": 0.0,
+      "whorl": 1.0
+    },
+    "confusion_matrix_rows_true_columns_predicted": [
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        3
+      ]
+    ]
+  },
+  "rejection": {
+    "threshold": 0.55,
+    "accepted": 1,
+    "unknown": 4,
+    "coverage": 0.2,
+    "accuracy_among_accepted": 1.0,
+    "calibration_domain": "validation split only; not real-phone calibrated"
+  },
+  "limitations": [
+    "No real-phone validation; scores uncalibrated.",
+    "Single-AI provisional morphology labels, not human/expert ground truth.",
+    "Very small selected evaluation; not a general accuracy estimate.",
+    "Unknown rejection is not reliable OOD detection."
+  ]
+}

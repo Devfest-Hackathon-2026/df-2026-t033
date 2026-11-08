@@ -37,3 +37,9 @@ Thumbs.db
 /docs/local/
 *.pdf
 secrets/
+
+# Classifier data, local model weights and private experiment outputs
+/fingerprint_model/local/
+/fingerprint_model/data/
+/fingerprint_model/weights/
+/fingerprint_model/runs/
