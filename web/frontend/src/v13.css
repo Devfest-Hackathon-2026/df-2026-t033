@@ -1,0 +1,110 @@
+/* v13: Screenshot-era classic UI + collaboration shortcuts */
+.theme-cobalt {
+  --bg:#050e28; --bg-secondary:#0a1840; --panel:rgba(8,15,35,.94);
+  --accent:#4295ff; --accent-soft:rgba(66,149,255,.18); --shadow:rgba(66,149,255,.30);
+}
+.theme-amber {
+  --bg:#1b1209; --bg-secondary:#291b0c; --panel:rgba(20,14,8,.95);
+  --accent:#ffb83d; --accent-soft:rgba(255,184,61,.18); --shadow:rgba(255,184,61,.30);
+}
+.theme-emerald {
+  --bg:#071911; --bg-secondary:#0d281a; --panel:rgba(7,22,14,.94);
+  --accent:#43e3a1; --accent-soft:rgba(67,227,161,.16); --shadow:rgba(67,227,161,.27);
+}
+.theme-pink {
+  --bg:#1b0a1c; --bg-secondary:#280e29; --panel:rgba(23,10,26,.95);
+  --accent:#ff69ae; --accent-soft:rgba(255,105,174,.18); --shadow:rgba(255,105,174,.30);
+}
+.theme-silver {
+  --bg:#101015; --bg-secondary:#1b1b23; --panel:rgba(14,14,20,.95);
+  --accent:#d9e3f2; --accent-soft:rgba(217,227,242,.13); --shadow:rgba(217,227,242,.17);
+}
+.theme-swatch.cobalt {background:linear-gradient(115deg,#050e28,#4295ff)}
+.theme-swatch.amber {background:linear-gradient(115deg,#1b1209,#ffb83d)}
+.theme-swatch.emerald {background:linear-gradient(115deg,#071911,#43e3a1)}
+.theme-swatch.pink {background:linear-gradient(115deg,#1b0a1c,#ff69ae)}
+.theme-swatch.silver {background:linear-gradient(115deg,#14141c,#d9e3f2)}
+.theme-detail {display:block;margin-top:5px;font-size:12px;font-weight:500;opacity:.76}
+.theme-card {max-width:290px;min-height:125px;}
+/* Preserve the exact dark, red/white split home composition */
+.home-view {
+  grid-template-areas:
+    "hero menu"
+    "hero community"
+    "hero stats"
+    "ticker ticker";
+  grid-template-rows:auto auto auto auto;
+  row-gap:14px;
+}
+.command-grid {gap:12px;}
+.command-card {min-height:137px;}
+.hero-copy-block {min-height:720px;}
+.community-panel {
+  grid-area:community;
+  background:rgba(7,7,10,.87);
+  padding:15px 17px 16px;
+  border-left:4px solid var(--accent);
+  border-top:1px solid rgba(255,255,255,.25);
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+.community-title-row {display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}
+.community-kicker {color:var(--accent);font:900 10px 'Segoe UI',sans-serif;letter-spacing:.15em}
+.community-heading {font-size:15px;font-weight:900;color:#fff;letter-spacing:.06em}
+.community-actions {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.community-action {
+  min-width:0;min-height:91px;position:relative;display:flex;align-items:center;gap:9px;
+  border:1px solid rgba(255,255,255,.25);border-bottom:3px solid var(--accent);
+  background:#1b1b21;color:#fff;padding:12px 9px;text-align:left;
+  transition:transform .18s,background .18s,border-color .18s;
+}
+.community-action.online {background:linear-gradient(135deg,var(--accent-soft),#1b1b21 74%)}
+.community-action:hover,.community-action:focus-visible {transform:translateY(-3px);border-color:var(--accent);background:#27272c}
+.community-icon {font:900 25px Impact, sans-serif;color:var(--accent);flex:none}
+.community-copy {display:flex;flex-direction:column;min-width:0;gap:4px}
+.community-copy strong {font-size:clamp(12px,1.08vw,15px);line-height:1.3;white-space:normal}
+.community-copy small {color:#bfbfc8;font-size:11px;line-height:1.3}
+.community-arrow {position:absolute;top:4px;right:7px;opacity:.66;font-size:13px}
+.home-side-panel {padding-top:14px;padding-bottom:14px}
+.home-side-panel .mini-stat {min-height:60px;}
+/* Collaboration page is a real navigable UI, but does NOT pretend to connect to strangers */
+.collab-view {max-width:1050px;}
+.collab-mode-switch {display:flex;gap:9px;margin:25px 0 19px;flex-wrap:wrap}
+.collab-mode-switch button {padding:14px 20px;background:#24242b;border:2px solid rgba(255,255,255,.17);color:#fff;font-weight:900;flex:1;min-width:170px}
+.collab-mode-switch button.active {background:var(--accent);color:#101010;border-color:transparent}
+.collab-intro {border-left:6px solid var(--accent);padding:10px 19px;background:rgba(255,255,255,.045);margin-bottom:19px}
+.collab-number,.choice-topline,.collab-demo-label {color:var(--accent);font-size:11px;font-weight:900;letter-spacing:.17em}
+.collab-intro h3 {margin:7px 0;font-size:clamp(22px,4vw,30px)}
+.collab-intro p,.collab-choice-card p,.collab-disclaimer p {color:var(--muted);line-height:1.7;margin:5px 0}
+.collab-room-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.collab-choice-card {border:1px solid rgba(255,255,255,.24);background:rgba(10,10,15,.68);min-height:305px;padding:21px;display:flex;flex-direction:column;gap:11px}
+.collab-choice-card h4 {margin:0;font-size:22px}
+.choice-icon {font:900 45px Impact,sans-serif;color:var(--accent);line-height:1}
+.collab-choice-card .action-button,.collab-choice-card .ghost-button {margin-top:auto;align-self:flex-start;min-height:46px}
+.collab-choice-card .ghost-button:disabled {opacity:.45}
+.collab-room-label {display:block;font-size:12px;font-weight:800;letter-spacing:.08em;margin-top:auto}
+.collab-room-input {display:block;width:100%;padding:13px 12px;font-size:16px;letter-spacing:.12em;color:#fff;background:#181820;border:2px solid #737382;outline-offset:2px}
+.collab-room-input:focus {border-color:var(--accent)}
+.collab-notice {border:2px solid var(--accent);padding:15px;margin-top:17px;background:var(--accent-soft);line-height:1.7;color:#fff}
+.collab-disclaimer {margin-top:18px;padding:15px 17px;border-left:4px solid var(--accent);background:rgba(0,0,0,.34)}
+.collab-footer-actions {margin-top:18px}
+@media (max-width:850px) {
+  .home-view {grid-template-areas:'hero' 'menu' 'community' 'stats' 'ticker';grid-template-rows:auto;}
+  .hero-copy-block {min-height:520px}
+  .community-copy strong {font-size:15px}
+  .command-card {min-height:150px}
+}
+@media (max-width:600px) {
+  .hero-copy-block {min-height:470px}
+  .command-card {min-height:120px}
+  .community-panel {padding:13px 12px}
+  .community-actions {grid-template-columns:1fr}
+  .community-action {min-height:75px;padding:12px 15px}
+  .collab-mode-switch {flex-direction:column}
+  .collab-mode-switch button {min-width:0;flex:auto}
+  .collab-room-grid {grid-template-columns:1fr}
+  .collab-choice-card {min-height:0}
+  .collab-choice-card .action-button,.collab-choice-card .ghost-button {width:100%;align-self:stretch}
+}
+@media (prefers-reduced-motion:reduce) {
+  .community-action {transition:none}
+}
