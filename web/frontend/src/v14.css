@@ -90,3 +90,12 @@
 /* Experimental, browser-local fingerprint analysis consent */
 .fingerprint-consent { display:flex; align-items:flex-start; gap:9px; margin:12px 0; font-size:12px; line-height:1.6; cursor:pointer; }
 .fingerprint-consent input { margin-top:4px; flex:0 0 auto; accent-color:#f43f5e; }
+
+.solo-generation-status { display:flex; flex-direction:column; gap:8px; padding:14px; margin:12px 0; border:1px solid #fda4af; border-radius:10px; background:#24141d; color:#fff; font-size:13px; line-height:1.6; }
+.solo-generation-status strong { color:#fda4af; }
+.solo-generation-error { padding:12px; border:1px solid #fda4af; border-radius:8px; color:#fecdd3; line-height:1.6; overflow-wrap:anywhere; }
+.solo-crop-control { display:flex; flex-direction:column; gap:8px; margin:12px 0; font-size:13px; line-height:1.6; }
+.solo-crop-control select { width:100%; padding:10px; background:#24141d; color:#fff; border:1px solid #a78b96; border-radius:6px; }
+.solo-crop-control span { font-size:12px; }
+.solo-estimate-notice { margin:10px 0; padding:12px; border:1px solid #b89d60; border-radius:8px; color:#ffedba; background:#2a2419; font-size:12px; line-height:1.7; }
+.solo-estimate-notice p { margin:6px 0 0; }

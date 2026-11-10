@@ -3,6 +3,16 @@ function fixture(label,rotation=0){const n=384,g=new Float32Array(n*n);for(let y
 let reports=0;
 for(const label of ['arch','loop','whorl'])for(const rotation of [-.18,0,.18]){const result=F.analyze(fixture(label,rotation),384,384,()=>reports++);assert.equal(result.candidate,label);assert(result.ridgeCount>=4);assert(result.minutiae.every(m=>m.x>=0&&m.x<=1&&m.y>=0&&m.y<=1));assert(result.estimated);assert(result.preview.skeleton.length===384*384);const score=M.compose([{id:'photo',feature:result}]);assert.equal(score.bpm,result.ridgeCount*2.5);assert.equal(score.genre,M.genres[label]);assert(M.render(score).some(x=>Math.abs(x)>.02));}
 assert(reports>20);
+// Partial observations remain measurements, never invented full-area counts.
+const partialMask=new Uint8Array(384*384),partialBinary=new Uint8Array(384*384);
+for(let y=100;y<280;y++)for(let x=165;x<205;x++){partialMask[y*384+x]=1;if(x>=180&&x<=183)partialBinary[y*384+x]=1;}
+const partial=F.countRidges(partialBinary,partialMask,192,192,0,384,384);
+assert.equal(partial.status,'partial');assert.equal(partial.ridgeCount,1);assert(partial.coverage<.45);
+const unavailable=F.countRidges(new Uint8Array(384*384),partialMask,192,192,0,384,384);
+assert.equal(unavailable.status,'unavailable');assert.equal(unavailable.ridgeCount,null);assert.equal(unavailable.line,null);
+// Small but coherent curved texture can proceed, explicitly as a partial estimate.
+const limited=fixture('whorl');for(let y=0;y<384;y++)for(let x=0;x<384;x++)if(x<160||x>220||y<160||y>220)limited[y*384+x]=.5;
+const limitedResult=F.analyze(limited);assert(limitedResult.analysis.approximate);assert(limitedResult.analysis.quality<35/576);
 for(const v of [0,.5,1])assert.throws(()=>F.analyze(new Float32Array(384*384).fill(v)));
 const stripes=new Float32Array(384*384);for(let y=0;y<384;y++)for(let x=0;x<384;x++)stripes[y*384+x]=.5+.3*Math.cos(x*.4);assert.throws(()=>F.analyze(stripes));
 let seed=3;const noise=Float32Array.from({length:384*384},()=>{seed=Math.imul(seed,1664525)+1013904223|0;return(seed>>>0)/4294967296;});assert.throws(()=>F.analyze(noise));

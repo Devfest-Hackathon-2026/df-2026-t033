@@ -29,7 +29,11 @@ function createId(prefix = 'id') {
 const PATTERN_GENRE = {arch:'ヒップホップ', loop:'ハウス', whorl:'テクノ'}
 
 function buildTrack(players, kind) {
-  const score = Music.compose(players)
+  // Keep displayed observations intact; bound only the musical tempo input.
+  const musicalPlayers = players.map(p => ({...p, feature: {...p.feature,
+    ridgeCount: Math.max(32, Math.min(64, p.feature.ridgeCount)),
+  }}))
+  const score = Music.compose(musicalPlayers)
   const pcm = Music.render(score)
   const audioUrl = URL.createObjectURL(new Blob([Music.wav(pcm)], {type:'audio/wav'}))
   const ids = players.map((p) => p.id)
@@ -37,7 +41,7 @@ function buildTrack(players, kind) {
     id: createId(kind === 'individual' ? 'solo' : 'ensemble'),
     type: kind,
     title: kind === 'individual' ? `${ids[0]}'s Motif` : `${ids.join(' + ')} Ensemble`,
-    subtitle: `${score.genre} / 指紋から生成（参考推定）`,
+    subtitle: `${score.genre} / ${score.bpm} BPM（音楽用に80〜160へ調整・参考推定）`,
     participants: ids,
     genre: score.genre,
     accent: score.genre,
@@ -46,7 +50,7 @@ function buildTrack(players, kind) {
   }
 }
 
-function analyzeFingerprint(file, onProgress) {
+function analyzeFingerprint(file, onProgress, cropRatio = 1) {
   return new Promise(async (resolve, reject) => {
     let worker, timeout, bitmap
     try {
@@ -58,10 +62,14 @@ function analyzeFingerprint(file, onProgress) {
       canvas.width = 384; canvas.height = 384
       const ctx = canvas.getContext('2d', {willReadFrequently:true})
       if (!ctx) throw Error('画像解析の準備に失敗しました。')
-      const scale = Math.min(384 / bitmap.width, 384 / bitmap.height)
-      const w = bitmap.width * scale, h = bitmap.height * scale
+      const cropSide = Math.min(bitmap.width, bitmap.height) * cropRatio
+      const sw = cropRatio < 1 ? cropSide : bitmap.width
+      const sh = cropRatio < 1 ? cropSide : bitmap.height
+      const sx = (bitmap.width - sw) / 2, sy = (bitmap.height - sh) / 2
+      const scale = Math.min(384 / sw, 384 / sh)
+      const w = sw * scale, h = sh * scale
       ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,384,384)
-      ctx.drawImage(bitmap, (384-w)/2, (384-h)/2, w,h)
+      ctx.drawImage(bitmap, sx, sy, sw, sh, (384-w)/2, (384-h)/2, w,h)
       const pixels = ctx.getImageData(0,0,384,384).data
       worker = new Worker(`${import.meta.env.BASE_URL}analysis-worker.js`)
       const finish = (error, data) => {clearTimeout(timeout); worker.terminate(); error ? reject(error) : resolve(data)}
@@ -509,7 +517,28 @@ function App() {
     setAnalysisStatus('画像を解析しています…')
     setErrorMessage('')
     try {
-      const feature = await analyzeFingerprint(participant.file, setAnalysisStatus)
+      const observed = await analyzeFingerprint(participant.file, setAnalysisStatus, participant.cropRatio ?? 1)
+      // Missing measurements remain explicitly marked; 32 is only an audio tempo setting.
+      const missingRidges = observed.ridgeCount == null
+      const feature = missingRidges ? {
+        ...observed,
+        ridgeCount: 32,
+        analysis: {
+          ...observed.analysis,
+          approximate: true,
+          ridgeStatus: 'unavailable',
+          warning: `${observed.analysis?.warning || ''} 隆線交差数は取得できなかったため、音楽用の仮設定32（80 BPM）で作曲しました。これは測定結果ではありません。`,
+        },
+      } : observed
+      if (!missingRidges && (observed.ridgeCount < 32 || observed.ridgeCount > 64)) {
+        feature.analysis = {...feature.analysis,
+          warning: `${feature.analysis?.warning || ''} テンポは再生しやすい80〜160 BPMに調整します。表示した隆線交差数は変更しません。`,
+        }
+      }
+      if (token !== generationTokenRef.current[label]) return
+      setAnalysisStatus('解析完了。個人曲の音源を作成しています…')
+      // Let the browser paint the status before synchronous audio rendering.
+      await new Promise(resolve => setTimeout(resolve, 50))
       if (token !== generationTokenRef.current[label]) return
       const nextTrack = buildTrack([{id: label, feature}], 'individual')
       setParticipants(previous => previous.map(item => item.id === label ? {
@@ -949,8 +978,42 @@ function App() {
                               <span>FINGERPRINT GENRE</span>
                               <strong>{participant.feature ? `${participant.soloGenre}（参考推定）` : '指紋分類から自動で決定'}</strong>
                             </div>
+                            {busyParticipant === participant.id && (
+                              <div className="solo-generation-status" role="status" aria-live="polite">
+                                <strong>個人曲を作成中…</strong>
+                                <span>{analysisStatus || '指紋画像を解析しています…'}</span>
+                                <span>完了すると、この下に再生ボタンが表示されます。</span>
+                              </div>
+                            )}
+                            {errorMessage.startsWith(`参加者${participant.id}：`) && (
+                              <p className="solo-generation-error" role="alert">{errorMessage}</p>
+                            )}
+                            {!soloTrack && (
+                              <label className="solo-crop-control">
+                                解析する範囲
+                                <select value={participant.cropRatio ?? 1} disabled={Boolean(busyParticipant || uploadingParticipant)}
+                                  onChange={event => {
+                                    const cropRatio = Number(event.target.value)
+                                    setParticipants(previous => previous.map(p => p.id === participant.id ? {...p, cropRatio} : p))
+                                    setErrorMessage('')
+                                  }}>
+                                  <option value={1}>写真全体（指腹を切り出し済み）</option>
+                                  <option value={0.7}>中央70%（背景を除く）</option>
+                                  <option value={0.5}>中央50%（指腹を拡大）</option>
+                                </select>
+                                <span>指腹が写真の中央にある場合に選択し、もう一度生成してください。線の中心と周囲の曲がりを含めてください。</span>
+                              </label>
+                            )}
                             {soloTrack ? (
-                              <p className="solo-genre-hint ready">指紋の種類：{participant.feature.candidate} / 隆線交差数：{participant.feature.ridgeCount} / 特徴点：{participant.feature.minutiae.length}件（推定値・精度未検証）</p>
+                              <div>
+                                <p className="solo-genre-hint ready">指紋の種類候補：{participant.feature.candidate} / 隆線交差数の目安：{participant.feature.analysis?.ridgeStatus === 'unavailable' ? '未取得（音楽用の仮設定32／80 BPM）' : participant.feature.ridgeCount} / 特徴点候補：{participant.feature.minutiae.length}件（参考推定）</p>
+                                {participant.feature.analysis?.warning && (
+                                  <div className="solo-estimate-notice" role="status">
+                                    <strong>{participant.feature.analysis.approximate ? '読み取れた範囲で曲を作成しました' : '解析結果について'}</strong>
+                                    <p>{participant.feature.analysis.warning}</p>
+                                  </div>
+                                )}
+                              </div>
                             ) : (
                               <button type="button" className="action-button solo-generate-button"
                                 disabled={Boolean(busyParticipant || uploadingParticipant)} onClick={() => generateSoloTrack(participant.id)}>
@@ -962,10 +1025,10 @@ function App() {
 
                         <div className="participant-track-line">
                           <span>個人曲</span>
-                          <strong>{soloTrack ? `${soloTrack.title}（${soloTrack.genre.toUpperCase()}）` : '未生成'}</strong>
+                          <strong>{soloTrack ? `✓ 完成：${soloTrack.title}（${soloTrack.genre.toUpperCase()}）` : busyParticipant === participant.id ? '作成中…' : '未生成'}</strong>
                           {soloTrack && (
                             <button className="inline-play" onClick={() => playTrack(soloTrack)}>
-                              {currentTrackId === soloTrack.id ? 'STOP' : 'PLAY'}
+                              {currentTrackId === soloTrack.id ? '■ 停止' : '▶ 個人曲を聴く'}
                             </button>
                           )}
                         </div>
