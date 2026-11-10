@@ -1,5 +1,13 @@
 # DevFest Hackathon 2026 提出用リポジトリ
 
+## Fingerprint Symphony — 公開アプリ
+
+**[Webアプリを開く](https://fingerprint-symphony.web.app)**
+
+写真登録 → 個人曲生成 → 再生 → 複数人の共同曲生成を体験できます。指紋の解析結果は参考推定です。
+
+画面は **Firebase Hosting**、画像形式検証APIは **Cloud Run** で公開しています。指紋解析・作曲はブラウザ内で行います。起動手順と詳細は [web/README.md](web/README.md) を参照してください。
+
   DevFest Hackathon 2026 のチームの **最終提出用** リポジトリです。提出期限までに、作品のコードと資料をこのリポジトリに置いてください。
 
   このリポジトリは **公開（public）** です。開催中も、運営・審査員・ほかの参加者が見られます。
