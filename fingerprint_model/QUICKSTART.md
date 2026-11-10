@@ -17,7 +17,7 @@ activate不要です。PowerShellを開き直したらリポジトリへ移動�
 
 ## ソースだけで動作確認
 
-**数式模様の合成デモで、実指紋性能の確認ではありません。** cloneに実画像モデルはありません。まず自分のPCで小さなデモモデルを作ります。出力が既にあれば別名を使います。
+**数式模様の合成デモで、実指紋性能の確認ではありません。** 同梱モデルとは別に、まず自分のPCで小さなデモモデルを作ります。出力が既にあれば別名を使います。
 
 ```powershell
 & $python -m fingerprint_model generate --output fingerprint_model/local/demo-data --identities 12 --impressions 2 --seed 20261108
@@ -32,22 +32,13 @@ JSONが表示され、モデル・評価結果は `local/demo-run/` に保存さ
 
 ## 最新方式で写真を試す
 
-**別途最新templateモデルを準備した人向けです。clone直後は以下のモデルがなく実行できません。** 合成デモのmodel.npzとは互換性がありません。
-
-写真はGit除外済み `fingerprint_model/local/phone-photos/` に置きます。パスとROI座標は例なので、実際の写真に合わせます。座標はEXIF方向適用後の左・上・右・下です。
+学習済みモデルを同梱しています。データ取得・学習は不要です。次の写真パスとEXIF方向適用後ROI座標を実際の入力へ置き換えます。
 
 ```powershell
-& $python -m fingerprint_model.pattern predict --model fingerprint_model/local/my-pattern/templates.npz --image fingerprint_model/local/phone-photos/photo.jpg --domain phone --roi '100,200,900,1400'
+& $python -m fingerprint_model.integration --image C:\path\photo.jpg --domain phone --roi '100,200,900,1400'
 ```
 
-指腹全体へ切り出し済みなら `--roi` を省略できます。模様中心だけでなく周囲の流れも残し、元画像はローカルで保持します。自動指検出ではありません。スキャンには `--domain scan` を使います。
-
-- `candidate`: arch / loop / whorlの参考候補。
-- `decision`: reference_candidateは参考表示、retakeは品質不足、insufficient_matchは比較領域不足。
-- `verified_label`: null。experimentalはtrueです。
-- `quality` / `reasons`: 読めた領域や競合理由。similarity/marginは正解確率ではありません。
-
-現状archは開発評価0/4。写真の正解率は未検証です。本人識別・認証には使いません。
+指腹全体へ切り出し済みならROI省略可。candidateを音楽ルールへ利用できますが、推定であることを表示します。needs_reviewは不確実性の情報で、強制的な承認手続きではありません。正解確率や本人識別には使用しません。Python import・JSON契約は [INTEGRATION.md](INTEGRATION.md)。
 
 ## 実画像モデルを作る
 
@@ -67,15 +58,8 @@ JSONが表示され、モデル・評価結果は `local/demo-run/` に保存さ
 
 ## Git共有の境界
 
-ソース・テスト・集計レポートを共有します。実画像、写真、個別レビューCSV、manifest、lockの個別内容、モデルnpz、生ログは `fingerprint_model/local/` 内に置きます。テンプレートにも実画像由来の方向情報があるため公開しません。既存モデルをチームへ渡す場合は非公開artifactの共有範囲と保管方法を別途決めます。
-
-```powershell
-git status --short
-git check-ignore fingerprint_model/local/phone-photos/photo.jpg
-```
-
-除外ファイルに `git add -f` を使わないでください。この運用とCC BYの帰属表示義務は別です。
+ソース・テスト・集計・同梱参考モデルを共有します。assets/pattern-v1のモデルはCC BY 4.0で出典・加工を明記しています。元画像、写真、個別CSV、manifest、生ログ、その他のモデルはlocal内の非共有のままです。除外ファイルをgit add -fで追加しません。
 
 ## この手順の確認状況
 
-Python 3.12・requirements記載版の既存環境で16テストが合格。実画像・既存モデルをコピーせずソースだけを隔離フォルダへコピーし、上記と同じ小規模生成・学習・1枚推論を実行しました。新規venvへのインターネット経由pipインストール自体は未検証です。
+Python 3.12・requirements記載版の既存環境で19テストが合格。ソースだけの合成デモに加え、wheel作成・別targetへのインストール・リポジトリ外からのimportと同梱モデル推論を確認しました。新規venvへのインターネット経由依存インストール自体は未検証です。

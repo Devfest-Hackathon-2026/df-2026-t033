@@ -1,0 +1,2 @@
+importScripts('fingerprint.js');
+self.onmessage=e=>{try{const {pixels,width,height}=e.data;const gray=new Float32Array(width*height);for(let i=0;i<gray.length;i++)gray[i]=(pixels[i*4]*.299+pixels[i*4+1]*.587+pixels[i*4+2]*.114)/255;const result=Fingerprint.analyze(gray,width,height,stage=>postMessage({stage}));gray.fill(0);pixels.fill(0);postMessage({result},[result.preview.skeleton.buffer,result.preview.mask.buffer]);}catch(error){postMessage({error:error.message||'解析に失敗しました。別の写真をお試しください。'});}};

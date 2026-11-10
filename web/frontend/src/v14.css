@@ -1,0 +1,92 @@
+/* v14: three clear creation modes + separate Listen / Settings. Keep v13 artwork and colors. */
+/* Original split hero and angled command tiles remain unchanged. */
+.home-view {
+  grid-template-areas:
+    "hero menu"
+    "hero community"
+    "hero stats"
+    "ticker ticker";
+  grid-template-rows: auto auto auto auto;
+}
+.command-grid { gap: 12px; }
+.mode-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 5px 12px;
+  border-left: 5px solid var(--accent);
+  padding: 5px 0 6px 12px;
+}
+.mode-heading-kicker { color: var(--accent); font-weight: 900; font-size: 11px; letter-spacing: .17em; }
+.mode-heading-title { color: #f3f3f3; font-weight: 800; font-size: 15px; }
+.command-card { min-height: 142px; }
+.command-card.create { background: #fff; color: #121212; }
+.command-card.friends {
+  background: var(--accent); color: #101010;
+  transform: rotate(.5deg);
+}
+.command-card.random {
+  background: #222228; color: #fff;
+  border: 2px solid rgba(255,255,255,.45);
+  transform: rotate(-.4deg);
+}
+.command-card.friends:hover,
+.command-card.friends:focus-visible,
+.command-card.random:hover,
+.command-card.random:focus-visible {
+  transform: translate(-7px,-4px) rotate(0deg);
+}
+.command-card .command-main { font-size: clamp(27px, 2.55vw, 39px); line-height: 1.2; padding-right: 50px; }
+.command-card .command-sub { font-size: 12px; font-weight: 800; line-height: 1.45; margin-top: 4px; padding-right: 45px; }
+.command-card .command-glyph { top: 14px; font-size: 66px; }
+.command-card .command-arrow { width: 35px; height: 35px; font-size: 23px; bottom: 15px; right: 20px; }
+.community-panel { padding: 14px 16px; }
+.community-action { min-height: 76px; padding: 12px 13px; }
+.community-action.listen-shortcut { background: rgba(255,255,255,.11); }
+.community-action.settings-shortcut { background: rgba(0,0,0,.5); }
+.community-copy strong { font-size: 18px; }
+.community-copy small { font-size: 10px; letter-spacing: .08em; }
+.home-side-panel { padding-top: 12px; padding-bottom: 12px; }
+.home-side-panel .mini-stat { min-height: 52px; }
+.collab-mode-switch button.active { color: #111; }
+@media (max-width: 1100px) {
+  .command-card .command-main { font-size: clamp(26px, 3.2vw, 35px); }
+  .command-card .command-sub { font-size: 11px; }
+}
+@media (max-width: 850px) {
+  .home-view { grid-template-areas: 'hero' 'menu' 'community' 'stats' 'ticker'; grid-template-rows: auto; }
+  .command-grid { grid-template-columns: 1fr; gap: 11px; }
+  .command-card { min-height: 130px; }
+  .command-card .command-main { font-size: clamp(29px, 4vw, 38px); }
+  .command-card .command-sub { font-size: 12px; }
+  .community-actions { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 600px) {
+  .hero-copy-block { min-height: 470px; }
+  .top-nav-item { font-size: 11px; }
+  .command-card { min-height: 121px; padding: 13px 18px; }
+  .command-card .command-main { font-size: clamp(27px, 6.5vw, 35px); padding-right: 45px; }
+  .command-card .command-sub { font-size: 11px; padding-right: 45px; }
+  .command-card .command-glyph { top: 12px; right: 63px; font-size: 57px; }
+  .command-card .command-arrow { width: 30px; height: 30px; right: 17px; bottom: 14px; font-size: 21px; }
+  .community-actions { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }
+  .community-action { min-height: 76px; padding: 10px; }
+  .community-icon { font-size: 23px; }
+  .community-copy strong { font-size: 16px; }
+  .community-copy small { font-size: 9px; }
+  .mode-heading-title { font-size: 14px; }
+}
+@media (max-width: 375px) {
+  .command-card .command-main { font-size: 25px; }
+  .command-card .command-sub { font-size: 10px; }
+  .community-copy strong { font-size: 14px; }
+  .community-icon { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .command-card { transition: none; }
+}
+
+/* Experimental, browser-local fingerprint analysis consent */
+.fingerprint-consent { display:flex; align-items:flex-start; gap:9px; margin:12px 0; font-size:12px; line-height:1.6; cursor:pointer; }
+.fingerprint-consent input { margin-top:4px; flex:0 0 auto; accent-color:#f43f5e; }

@@ -52,6 +52,13 @@
 - [指紋データセット調査と取得計画](docs/09-fingerprint-datasets.md)
 - [追加調査：すぐ試すデータの優先順位](docs/10-additional-dataset-search.md)
 - [指紋分類：初回セットアップ・使い方](fingerprint_model/QUICKSTART.md)
-- [最新方式・評価と制約](fingerprint_model/README.md)（実画像・ラベル・モデルはGit非共有、実写真の正解率は未検証）
+- [最新方式・評価と制約](fingerprint_model/README.md)（参考モデル同梱・元画像と個別ラベルは非共有、実写真の正解率は未検証）
 
 提出締切は **2026年11月10日17:00（日本時間）** です（参加者確認済み。キックオフ資料14ページの19:00表記は誤り）。開発開始条件は11月5日10:00以降、かつ運営の開始アナウンス確認後です。11月5日の初期資料統合時点では開始アナウンス未確認のため文書のみを準備しました。現在の画像分類実験コードについては上記の使い方・制約を参照してください。
+
+- [バックエンドへ組み込むPython API・JSON契約](fingerprint_model/INTEGRATION.md)
+
+## Webアプリ
+
+撮影・画像選択・ブラウザ内解析・個人曲／共同曲生成・画像検証APIの起動手順は [web/README.md](web/README.md) を参照してください。
+このWeb版はPython分類モデルとは独立した実装です。
